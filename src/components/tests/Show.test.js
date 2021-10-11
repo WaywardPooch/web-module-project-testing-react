@@ -12,17 +12,17 @@ const testShow = {
     {
       id: 1,
       name: "Season 1",
-      episodes: [],
+      episodes: ["Empire Strikes Back", "Fun Times", "Brady Bunch"],
     },
     {
       id: 2,
       name: "Season 2",
-      episodes: [],
+      episodes: ["Empire Strikes Back", "Fun Times", "Brady Bunch"],
     },
     {
       id: 3,
       name: "Season 3",
-      episodes: [],
+      episodes: ["Empire Strikes Back", "Fun Times", "Brady Bunch"],
     },
   ],
 };
@@ -63,7 +63,21 @@ test("handleSelect is called when an season is selected", () => {
   expect(handleSelectMock).toBeCalled();
 });
 
-test("component renders when no seasons are selected and when rerenders with a season passed in", () => {});
+test("component renders when no seasons are selected and rerenders when a season is passed in", () => {
+  // Arrange 1: Render without a selected season
+  const { rerender } = render(<Show show={testShow} selectedSeason={"none"} />);
+  // Act 1: Query the episode container
+  let episodes = screen.queryByTestId("episodes-container");
+  // Assert 1: Check if episodes are on screen
+  expect(episodes).not.toBeInTheDocument();
+
+  // Arrange 2: Rerender with a selected season
+  rerender(<Show show={testShow} selectedSeason={"1"} />);
+  // Act 2: Query the episode container
+  episodes = screen.queryByTestId("episodes-container");
+  // Assert 2: Check if episodes are on screen
+  expect(episodes).toBeInTheDocument();
+});
 
 //Tasks:
 //1. Build an example data structure that contains the show data in the correct format. A show should contain a name, a summary and an array of seasons, each with a id, name and (empty) list of episodes within them. Use console.logs within the client code if you need to to verify the structure of show data.
