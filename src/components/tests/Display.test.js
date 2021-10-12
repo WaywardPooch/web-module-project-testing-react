@@ -1,5 +1,5 @@
 import React from "react";
-import { screen, render } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Display from "./../Display";
@@ -65,6 +65,24 @@ test("When fetch button is pressed, options count matches season count", async (
   // Assert
   const seasonsDropdown = await screen.findByRole("combobox");
   expect(seasonsDropdown).toHaveLength(testShow.seasons.length + 1);
+});
+
+test("When fetch button is pressed, displayFunc is called", async () => {
+  // Arrange
+  const displayFuncMock = jest.fn();
+  render(<Display displayFunc={displayFuncMock} />);
+  fetchShow.mockResolvedValueOnce({
+    name: testShow.name,
+    summary: testShow.summary,
+    seasons: testShow.seasons,
+  });
+  // Act
+  const fetchButton = screen.queryByRole("button");
+  userEvent.click(fetchButton);
+  // Assert
+  await waitFor(() => {
+    expect(displayFuncMock).toBeCalled();
+  });
 });
 
 ///Tasks:
