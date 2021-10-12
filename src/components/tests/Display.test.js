@@ -39,7 +39,9 @@ test("When fetch button is pressed, show component displays", async () => {
   render(<Display />);
 
   fetchShow.mockResolvedValueOnce({
-    data: testShow,
+    name: testShow.name,
+    summary: testShow.summary,
+    seasons: testShow.seasons,
   });
   // Act
   const fetchButton = screen.queryByRole("button");
@@ -52,9 +54,10 @@ test("When fetch button is pressed, show component displays", async () => {
 test("When fetch button is pressed, options count matches season count", async () => {
   // Arrange
   render(<Display />);
-
   fetchShow.mockResolvedValueOnce({
-    data: testShow,
+    name: testShow.name,
+    summary: testShow.summary,
+    seasons: testShow.seasons,
   });
   // Act
   const fetchButton = screen.queryByRole("button");
